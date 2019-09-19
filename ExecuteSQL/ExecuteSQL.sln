@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecuteSQL", "ExecuteSQL\ExecuteSQL.csproj", "{22B3F7B8-30C4-4FCA-B102-A896B15F1953}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22B3F7B8-30C4-4FCA-B102-A896B15F1953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22B3F7B8-30C4-4FCA-B102-A896B15F1953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22B3F7B8-30C4-4FCA-B102-A896B15F1953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22B3F7B8-30C4-4FCA-B102-A896B15F1953}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6EBAB4C-B8AA-4022-94BF-065C47FA4687}
+	EndGlobalSection
+EndGlobal
