@@ -66,7 +66,11 @@
         #region "AuthorizeAttribute Methods"
         protected override bool IsAuthorized(HttpActionContext actionContext)
         {
-            if (GetUserNameAndPassword(actionContext, out string username, out string password, out AuthType authType))
+            var username = string.Empty;
+            var password = string.Empty;
+            AuthType authType;
+
+            if (GetUserNameAndPassword(actionContext, out username, out password, out authType))
             {
                 return ApplicationSettings.AuthorizedUsername.Equals(username, StringComparison.OrdinalIgnoreCase) && ApplicationSettings.AuthorizedPassword.Equals(password, StringComparison.Ordinal);
             }

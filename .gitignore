@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ExecuteSQL/ExecuteSQL/bin
+/ExecuteSQL/ExecuteSQL/obj
+*.suo
+/ExecuteSQL/packages
+/ExecuteSQL/ExecuteSQL/Properties/PublishProfiles
+/ExecuteSQL/.vs/config
