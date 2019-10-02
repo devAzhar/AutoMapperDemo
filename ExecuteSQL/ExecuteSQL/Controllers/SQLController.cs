@@ -8,31 +8,39 @@
     using Attributes;
     using Models;
     using Utils;
+    using System.Web;
 
     [BasicAuthorize]
     public class SQLController : ApiController
     {
-        [HttpGet]
-        [HttpPost]
-        [OperationContract]
-        public DataTable SelectDataTable(string sql, string serverName = "", string databaseName = "", string username = "", string password = "")
+        public SQLController()
         {
-            return DatabaseHandler.GetDataTable(sql, ApplicationSettings.GetConnectionSring(serverName, databaseName, username, password));
+            Logger.Init();
         }
 
         [HttpGet]
         [HttpPost]
         [OperationContract]
-        public DataSet SelectDataSet(string sql, string serverName = "", string databaseName = "", string username = "", string password = "")
+        public DataTable SelectDataTable(string sql, string serverName = "", string databaseName = "", string username = "", string password = "", string log = "")
         {
-            return DatabaseHandler.GetDataSet(sql, ApplicationSettings.GetConnectionSring(serverName, databaseName, username, password));
+            return DatabaseHandler.GetDataTable(sql, ApplicationSettings.GetConnectionSring(serverName, databaseName, username, password), log);
         }
 
         [HttpGet]
         [HttpPost]
         [OperationContract]
-        public ResultModel Execute(string sql, string serverName = "", string databaseName = "", string username = "", string password = "")
+        public DataSet SelectDataSet(string sql, string serverName = "", string databaseName = "", string username = "", string password = "", string log = "")
         {
+            return DatabaseHandler.GetDataSet(sql, ApplicationSettings.GetConnectionSring(serverName, databaseName, username, password), log);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        [OperationContract]
+        public ResultModel Execute(string sql, string serverName = "", string databaseName = "", string username = "", string password = "", string log = "")
+        {
+            Logger.Log(sql, log);
+
             var resultCode = 0;
             var resultMsg = string.Empty;
 
@@ -40,8 +48,9 @@
             {
                 using (var connection = new SqlConnection(ApplicationSettings.GetConnectionSring(serverName, databaseName, username, password)))
                 {
-                    using (var command = new SqlCommand(sql))
+                    using (var command = new SqlCommand(sql, connection))
                     {
+                        command.CommandType = CommandType.Text;
                         connection.Open();
                         resultCode = command.ExecuteNonQuery();
                         connection.Close();
@@ -51,9 +60,12 @@
             catch (Exception exp)
             {
                 resultMsg = exp.Message;
+                Logger.Log(resultMsg, log);
+                Logger.Log(exp.StackTrace, log);
             }
 
             var model = new ResultModel() { ResultCode = resultCode.ToString(), ResultMessage = resultMsg, Response = string.Empty };
+            
             return model;
         }
     }

@@ -6,11 +6,13 @@
     public static class DatabaseHandler
     {
         #region "Public Methods"
-        public static DataTable GetDataTable(string sql, string connectionString)
+        public static DataTable GetDataTable(string sql, string connectionString, string log = "")
         {
+            Logger.Log(sql, log);
+
             DataTable dataTable = null;
 
-            using (var dataSet = GetDataSet(sql, connectionString))
+            using (var dataSet = GetDataSet(sql, connectionString, log))
             {
                 if (dataSet.Tables.Count > 0)
                 {
@@ -21,8 +23,10 @@
             return dataTable;
         }
 
-        public static DataSet GetDataSet(string sql, string connectionString)
+        public static DataSet GetDataSet(string sql, string connectionString, string log = "")
         {
+            Logger.Log(sql, log);
+
             if (string.IsNullOrEmpty(connectionString))
             {
                 connectionString = ApplicationSettings.ConnectionString;
