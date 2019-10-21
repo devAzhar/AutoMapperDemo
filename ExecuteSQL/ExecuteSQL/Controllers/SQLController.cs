@@ -37,7 +37,7 @@
         [HttpGet]
         [HttpPost]
         [OperationContract]
-        public ResultModel Execute(string sql, string serverName = "", string databaseName = "", string username = "", string password = "", string log = "")
+        public ResultModel Execute(string sql, string serverName = "", string databaseName = "", string username = "", string password = "", string log = "", bool useTransaction = false)
         {
             Logger.Log(sql, log);
 
@@ -52,7 +52,33 @@
                     {
                         command.CommandType = CommandType.Text;
                         connection.Open();
-                        resultCode = command.ExecuteNonQuery();
+
+                        SqlTransaction transaction = null;
+
+                        try
+                        {
+                            if (useTransaction)
+                            {
+                                transaction = connection.BeginTransaction();
+                            }
+
+                            resultCode = command.ExecuteNonQuery();
+
+                            if (useTransaction)
+                            {
+                                transaction.Commit();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            if (useTransaction)
+                            {
+                                transaction.Rollback();
+                            }
+
+                            throw e;
+                        }
+
                         connection.Close();
                     }
                 }
